@@ -61,6 +61,8 @@ deque<T>::deque(int capacity)
    : iFront(0), iBack(-1), data(nullptr)
 {
    resize(capacity);
+   iFront = 0;
+   iBack = -1;
 }
 
 // copy constructor
@@ -198,7 +200,7 @@ void deque<T>::resize(int newCapacity, bool reset)
 
    // copy the data
    int iDestination = 0;
-   for (int iSource = iFront; iSource < iBack; iSource++)
+   for (int iSource = iFront; (iDestination < (size() - 1)); iSource++)
       newData[iDestination++] = data[iSource % numCapacity];
 
    // set the new capacity, numPush, and numPop
