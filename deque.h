@@ -36,7 +36,7 @@ public:
    ~deque();
    int size() const
    {
-       return iBack - iFront + 1;
+       return iBack - iFront;
    }
    bool empty() const
    {
