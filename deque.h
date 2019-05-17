@@ -70,7 +70,7 @@ template <typename T>
 deque<T>::deque(const deque &otherdeque)
    : iFront(0), iBack(-1), data(nullptr)
 {
-   numCapacity = 0;
+   numCapacity = otherdeque.numCapacity;
    assign(otherdeque);
 }
 
@@ -170,8 +170,8 @@ void deque<T>::assign(const deque<T> &rhs)
    // copy the data
    //int iDestination = 0;
    for (int iSource = rhs.iFront; iSource < rhs.iBack; iSource++)
-      //data[iDestination++] = rhs.data[iSource % rhs.numCapacity];
-      push_back(rhs.data[iSource % rhs.numCapacity]); //TODO what to put in data brackets
+      data[iSource] = rhs.data[iSource % rhs.numCapacity];
+      //push_back(rhs.data[iSource % rhs.numCapacity]); //TODO what to put in data brackets
 
    iFront = 0;
    iBack = rhs.size() - 1;
@@ -200,13 +200,13 @@ void deque<T>::resize(int newCapacity, bool reset)
 
    // copy the data
    int iDestination = 0;
-   for (int iSource = iFront; (iDestination < (size() - 1)); iSource++)
+   for (int iSource = iFront; (iDestination < (size())); iSource++)
       newData[iDestination++] = data[iSource % numCapacity];
 
    // set the new capacity, numPush, and numPop
    this->numCapacity = newCapacity;
    iFront = 0;
-   iBack = iDestination;
+   //iBack = iDestination;
 
    // free the old
    if (NULL != data)
