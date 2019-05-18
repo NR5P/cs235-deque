@@ -180,8 +180,10 @@ void deque<T>::assign(const deque<T> &rhs)
 
    // copy the data
    //int iDestination = 0;
-   for (int iSource = rhs.iFront; iSource < rhs.iBack; iSource++)
-      data[iSource] = rhs.data[iSource % rhs.numCapacity];
+   int newI = -1;
+   for (int iSource = rhs.iFront; iSource <= rhs.iBack; iSource++)
+      push_back(rhs.data[iNormalize(iSource)]);
+      //data[++newI] = rhs.data[iNormalize(iSource)];
       //push_back(rhs.data[iSource % rhs.numCapacity]); //TODO what to put in data brackets
 
    iFront = 0;
