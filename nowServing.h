@@ -13,8 +13,34 @@
 
 #include "deque.h"     // for DEQUE
 
-// the interactive nowServing program
+class Student
+{
+   private:
+      
+      bool emergancy;
+      string course;
+      string name;
+      int mins;
+
+   public:
+   
+   //Default Constructor
+   Student() : emergancy(false), course(""), name(""), min(0) {}
+   
+   //Non-Default Constructor
+   Student(bool emergancy, string course, string name, int mins);
+   
+   //Destructor
+   //~Student();
+
+   //Setters and Getters for emergancy/coursse/name/mins
+
+
+};
+
 void nowServing();
+void displayInstructions();
+void displayUpdate(int mins, Student currentStudent);
 
 #endif // NOW_SERVING_H
 
