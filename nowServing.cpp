@@ -23,6 +23,7 @@ bool isTherePriority = false;
 
 void display()
 {
+   checkIfTimeOut();
    if (isTherePriority == false)
    {
       cout << "\tCurrently serving " << helpRequestDequeue.front().getName()
@@ -38,6 +39,17 @@ void display()
       << endl;
    }
    
+}
+
+void checkIfTimeOut()
+{
+   if(helpRequestDequeue.front().getMinutesRemaining() == 0)
+      helpRequestDequeue.pop_front();
+   else if(helpRequestDequeue.back().getMinutesRemaining() == 0)
+   {
+      helpRequestDequeue.pop_back();
+      isTherePriority = false;
+   }
 }
 
 /************************************************
