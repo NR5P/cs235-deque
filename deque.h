@@ -83,9 +83,8 @@ deque<T>::deque(int capacity)
 // copy constructor
 template <typename T>
 deque<T>::deque(const deque &otherdeque)
-   : iFront(0), iBack(-1), data(nullptr)
+   : iFront(0), iBack(-1), data(nullptr), numCapacity(0)
 {
-   numCapacity = otherdeque.numCapacity;
    assign(otherdeque);
 }
 
