@@ -5,7 +5,7 @@
  *    This will contain the implementation for nowServing() as well as any
  *    other function or class implementations you may need
  * Author
- *    Griffin Pope, Dan Worwood, Nathan Riggs, Dallen Cluff
+ *    <your names here>
  **********************************************************************/
 
 #include <iostream>     // for ISTREAM, OSTREAM, CIN, and COUT
@@ -15,39 +15,14 @@
 #include "deque.h"      // for DEQUE
 using namespace std;
 
+custom::deque<helpRequest> helpRequestDequeue;
+
 /************************************************
  * NOW SERVING
  * The interactive function allowing the user to
  * handle help requests in the Linux lab
  ***********************************************/
 void nowServing()
-{
-   displayInstructions();
-
-   //dequeue<Student> currentStudent;
-   //dequeue<Student> nextStudent;
-   custom::deque<Student> students;
-
-   Student student;
-   string userChoice; //used for user input
-   int line = 0; //used for displaying which line we are on
-
-   do
-   {
-      cout << "<" << userChoice << ">"; 
-   } while (userChoice != "finished");
-   
-
-   cout << "End of simulation\n";
-
-   return;
-}
-
-/************************************************
- * displayInstructions()
- * DisplayInstructions
- ***********************************************/
-void displayInstructions()
 {
    // instructions
    cout << "Every prompt is one minute.  The following input is accepted:\n";
@@ -56,30 +31,107 @@ void displayInstructions()
    cout << "\tnone                         : no new request this minute\n";
    cout << "\tfinished                     : end simulation\n";
 
-   return;
+   // your code here
+   string command;
+   int lineCount = 0;
+   helpRequest currentRequest();
+   do
+   {
+      cout << "<" << lineCount << "> ";
+      lineCount++;
+      cin >> command;
+
+      if (command == "!!")
+      {
+         string name;
+         int minutesRemaining;
+         cin >> name;
+         cin >> minutesRemaining;
+         helpRequest newRequest(command, name, minutesRemaining);
+         newRequest.setIsPriority(true);
+
+         helpRequestDequeue.push_front(newRequest);
+
+         //processRequest to shift the request
+      }
+      else if (command == "none")
+      {
+         //processRequest to shift the request
+      }
+      else if (command == "finished")
+      {
+         break;
+      }
+      else
+      {
+         string name;
+         int minutesRemaining;
+         cin >> name;
+         cin >> minutesRemaining;
+         helpRequest newRequest(command, name, minutesRemaining);
+         helpRequestDequeue.push_back(newRequest);
+
+         //processRequest to shift the request
+      }
+
+   } while (command != "finished");
+
+   // end
+   cout << "End of simulation\n";
 }
 
-/************************************************
- * displayUpdate()
- * Function to display who is currently being
- * being served, or emergancy info,  and time left.
- ***********************************************/
-void displayUpdate(int mins, Student currentStudent)
+helpRequest::helpRequest()
 {
-   if (currentStudent.isEmergency())
+   this->name = "";
+   this->sClass = "";
+   this->minutesRemaining = 0;
+   this->isPriority = false;
+}
+
+helpRequest::helpRequest(string sClass, string name, int minutesRemaining)
+{
+   this->name = name;
+   this->sClass = sClass;
+   this->minutesRemaining = minutesRemaining;
+   this->isPriority = false;
+}
+
+void helpRequest::processRequest()
+{
+   int minutesRemaining = this->getMinutesRemaining();
+   if (helpRequestDequeue.empty())
    {
-      cout << "Emergency for " << currentStudent.getName()
-      << " for class " << currentStudent.getCourse() 
-      << ". Time left: " /* << *Somehow put remaining time here* */
-      << endl;
+      return;
+   }
+   if (this->getMinutesRemaining() > 0)
+   {
+      //display if minutes are remaining
+      this->display();
+      this->setMinutesRemaining(minutesRemaining - 1);
    }
    else
    {
-      cout << "Currently serving " << currentStudent.getName()
-      << " for class " << currentStudent.getCourse() 
-      << ". Time left: " /* << *Somehow put remaining time here* */
-      << endl;
+      *this = helpRequestDequeue.front();
+      helpRequestDequeue.pop_front();
+      this->display();
+      this->setMinutesRemaining(minutesRemaining - 1);
    }
-   
-   return;
+}
+
+void helpRequest::display()
+{
+   if (this->getIsPriority())
+   {
+      cout << "\tEmergency for " << this->name
+         << " for class " << this->sClass
+         << ". Time left: " << this->minutesRemaining
+         << endl;
+   }
+   else
+   {
+      cout << "\tCurrently serving " << this->name
+         << " for class " << this->sClass
+         << ". Time left: " << this->minutesRemaining
+         << endl;
+   }
 }
