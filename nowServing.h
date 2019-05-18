@@ -12,58 +12,39 @@
 #define NOW_SERVING_H
 
 #include "deque.h"     // for DEQUE
-#include <string>
 
-class Student
+
+class helpRequest
 {
-   private:
-      
-      bool emergency;
-      std::string course;
-      std::string name;
-      int minutes;
+public:
+   helpRequest();
+   helpRequest(std::string sClass, std::string name, int minutesRemaining);
+   ~helpRequest() {};
 
-   public:
-   
-   //Default Constructor
-   Student() : emergency(false), course(""), name(""), minutes(0) {}
-   
-   //Non-Default Constructor
-   Student(bool emergancy, std::string course, std::string name, int mins);
-   
-   bool isEmergency() 
-   {
-       return emergency;
-   }
+   bool getIsPriority() const { return isPriority; }
+   void setIsPriority(bool isPriority) { this->isPriority = isPriority; }
 
-   std::string getName()
-   {
-       return name;
-   }
+   std::string getName() const { return name; }
+   void setName(std::string name) { this->name = name; }
 
-   std::string getCourse()
-   {
-       return course;
-   }
+   std::string getClass() const { return sClass; }
+   void setClass(std::string sClass) { this->sClass = sClass; }
 
-   void setCourse(std::string course)
-   {
-       this->course = course;
-   }
-   void setName(std::string name)
-   {
-       this->name = name;
-   }
-   void setMinute(int minute)
-   {
-       this->minutes = minute;
-   }
+   int getMinutesRemaining() const { return minutesRemaining; }
+   void setMinutesRemaining(int minutes) { this->minutesRemaining = minutes; }
 
+   void processRequest();
+   void display();
+
+private:
+   std::string name;
+   std::string sClass;
+   int minutesRemaining;
+   bool isPriority;
 };
 
+
+// the interactive nowServing program
 void nowServing();
-void displayInstructions();
-void displayUpdate(int mins, Student currentStudent);
 
 #endif // NOW_SERVING_H
-
