@@ -23,9 +23,9 @@ bool isTherePriority = false;
 
 void checkIfTimeOut()
 {
-   if(helpRequestDequeue.front().getMinutesRemaining() < 1)
+   if(helpRequestDequeue.front().getMinutesRemaining() - minutesSince < 1)
       helpRequestDequeue.pop_front();
-   else if(helpRequestDequeue.back().getMinutesRemaining() < 1)
+   else if(helpRequestDequeue.back().getMinutesRemaining() - minutesSince < 1)
    {
       helpRequestDequeue.pop_back();
       isTherePriority = false;
