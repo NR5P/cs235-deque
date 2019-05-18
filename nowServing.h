@@ -11,15 +11,14 @@
 #ifndef NOW_SERVING_H
 #define NOW_SERVING_H
 
-#include "deque.h"     // for DEQUE
-
+#include "deque.h" // for DEQUE
 
 class helpRequest
 {
 public:
    helpRequest();
    helpRequest(std::string sClass, std::string name, int minutesRemaining);
-   ~helpRequest() {};
+   ~helpRequest(){};
 
    bool getIsPriority() const { return isPriority; }
    void setIsPriority(bool isPriority) { this->isPriority = isPriority; }
@@ -34,11 +33,12 @@ public:
    void setMinutesRemaining(int minutes) { this->minutesRemaining = minutes; }
    void subtractOneMinute()
    {
-       --minutesRemaining;
+      --minutesRemaining;
    }
 
    void processRequest();
    void display();
+   bool empty() const;
 
 private:
    std::string name;
@@ -47,9 +47,7 @@ private:
    bool isPriority;
 };
 
-
 // the interactive nowServing program
 void nowServing();
 
 #endif // NOW_SERVING_H
-

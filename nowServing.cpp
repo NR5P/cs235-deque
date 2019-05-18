@@ -17,10 +17,25 @@ using namespace std;
 
 custom::deque<helpRequest> helpRequestDequeue;
 
-void checkIfTimeOut()
+void checkIfTimeOut(helpRequest &request)
 {
-   if(helpRequestDequeue.front().getMinutesRemaining() < 1)
+   //if the current request is done/empty, check if there's
+   //another one.
+   if (request.empty() && !helpRequestDequeue.empty())
+   {
+      request = helpRequestDequeue.front();
       helpRequestDequeue.pop_front();
+   }
+}
+
+void updateTimeoutAndDisplay(helpRequest &request)
+{
+   checkIfTimeOut(request);
+   if (!request.empty())
+   {
+      request.display();
+      request.subtractOneMinute();
+   }
 }
 
 /************************************************
@@ -40,8 +55,7 @@ void nowServing()
    // your code here
    string command;
    int lineCount = 0;
-   helpRequest currentRequest();
-
+   helpRequest currentRequest;
 
    do
    {
@@ -53,26 +67,24 @@ void nowServing()
       if (command == "!!")
       {
          string name;
+         string classname;
          int minutesRemaining;
+         cin >> classname;
          cin >> name;
          cin >> minutesRemaining;
-         helpRequest newRequest(command, name, minutesRemaining);
+         helpRequest newRequest(classname, name, minutesRemaining);
          newRequest.setIsPriority(true);
 
          helpRequestDequeue.push_front(newRequest);
 
-         checkIfTimeOut();
-         helpRequestDequeue.front().display();
-         helpRequestDequeue.front().subtractOneMinute();
+         updateTimeoutAndDisplay(currentRequest);
 
          //processRequest to shift the request
       }
       else if (command == "none")
       {
          //processRequest to shift the request
-         checkIfTimeOut();
-         helpRequestDequeue.front().display();
-         helpRequestDequeue.front().subtractOneMinute();
+         updateTimeoutAndDisplay(currentRequest);
       }
       else if (command == "finished")
       {
@@ -87,9 +99,7 @@ void nowServing()
          helpRequest newRequest(command, name, minutesRemaining);
          helpRequestDequeue.push_back(newRequest);
 
-         checkIfTimeOut();
-         helpRequestDequeue.front().display();
-         helpRequestDequeue.front().subtractOneMinute();
+         updateTimeoutAndDisplay(currentRequest);
          //processRequest to shift the request
       }
 
@@ -137,20 +147,27 @@ void helpRequest::processRequest()
    }
 }
 
+bool helpRequest::empty() const
+{
+   //if minutesRemaining is 0, we'll treat this as empty
+   //maybe we should also check "name"...
+   return this->minutesRemaining == 0;
+}
+
 void helpRequest::display()
 {
    if (this->getIsPriority())
    {
       cout << "\tEmergency for " << this->name
-         << " for class " << this->sClass
-         << ". Time left: " << this->minutesRemaining
-         << endl;
+           << " for class " << this->sClass
+           << ". Time left: " << this->minutesRemaining
+           << endl;
    }
    else
    {
       cout << "\tCurrently serving " << this->name
-         << " for class " << this->sClass
-         << ". Time left: " << this->minutesRemaining
-         << endl;
+           << " for class " << this->sClass
+           << ". Time left: " << this->minutesRemaining
+           << endl;
    }
 }
