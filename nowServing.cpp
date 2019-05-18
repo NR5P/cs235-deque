@@ -86,14 +86,14 @@ void nowServing()
          helpRequestDequeue.push_front(newRequest);
 
 
-         display();
+         helpRequestDequeue.front().display();
 
          //processRequest to shift the request
       }
       else if (command == "none")
       {
          //processRequest to shift the request
-         display();
+         helpRequestDequeue.front().display();
       }
       else if (command == "finished")
       {
@@ -108,7 +108,7 @@ void nowServing()
          helpRequest newRequest(command, name, minutesRemaining);
          helpRequestDequeue.push_back(newRequest);
 
-         display();
+         helpRequestDequeue.front().display();
          //processRequest to shift the request
       }
 
