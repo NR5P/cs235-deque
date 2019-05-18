@@ -17,24 +17,16 @@ using namespace std;
 
 custom::deque<helpRequest> helpRequestDequeue;
 
-// to show how many minutes its been for other students
-bool isTherePriority = false;
-
 void checkIfTimeOut()
 {
    if(helpRequestDequeue.front().getMinutesRemaining())
       helpRequestDequeue.pop_front();
-   else if(helpRequestDequeue.back().getMinutesRemaining())
-   {
-      helpRequestDequeue.pop_back();
-      isTherePriority = false;
-   }
 }
 
 void display()
 {
    checkIfTimeOut();
-   if (isTherePriority == false)
+   if (helpRequestDequeue.front().getIsPriority() == false)
    {
       cout << "\tCurrently serving " << helpRequestDequeue.front().getName()
       << " for class " << helpRequestDequeue.front().getClass()
@@ -44,11 +36,11 @@ void display()
    }
    else
    {
-      cout << "\tEmergency for " << helpRequestDequeue.back().getName()
-      << " for class " << helpRequestDequeue.back().getClass()
-      << ". Time left: " << helpRequestDequeue.back().getMinutesRemaining()
+      cout << "\tEmergency for " << helpRequestDequeue.front().getName()
+      << " for class " << helpRequestDequeue.front().getClass()
+      << ". Time left: " << helpRequestDequeue.front().getMinutesRemaining()
       << endl;
-      helpRequestDequeue.back().subtractOneMinute();
+      helpRequestDequeue.front().subtractOneMinute();
    }
    
 }
@@ -84,7 +76,6 @@ void nowServing()
 
       if (command == "!!")
       {
-         isTherePriority = true;
          string name;
          int minutesRemaining;
          cin >> name;
