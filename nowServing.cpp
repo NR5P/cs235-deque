@@ -35,10 +35,15 @@ void nowServing()
    string command;
    int lineCount = 0;
    helpRequest currentRequest();
+
+   // to show how many minutes its been for other students
+   int minutesSince = 0;
+
    do
    {
       cout << "<" << lineCount << "> ";
       lineCount++;
+      cin.clear();
       cin >> command;
 
       if (command == "!!")
@@ -52,11 +57,16 @@ void nowServing()
 
          helpRequestDequeue.push_front(newRequest);
 
+         minutesSince++;
+
+         display(true);
+
          //processRequest to shift the request
       }
       else if (command == "none")
       {
          //processRequest to shift the request
+         minutesSince++;
       }
       else if (command == "finished")
       {
@@ -71,6 +81,7 @@ void nowServing()
          helpRequest newRequest(command, name, minutesRemaining);
          helpRequestDequeue.push_back(newRequest);
 
+         minutesSince++;
          //processRequest to shift the request
       }
 
@@ -78,6 +89,25 @@ void nowServing()
 
    // end
    cout << "End of simulation\n";
+}
+
+void display(bool isTherePriority = false)
+{
+   if (isTherePriority)
+   {
+      cout << "\tEmergency for " << this->name
+      << " for class " << this->sClass
+      << ". Time left: " << this->minutesRemaining
+      << endl;
+   }
+   else
+   {
+      cout << "\tEmergency for " << this->name
+      << " for class " << this->sClass
+      << ". Time left: " << this->minutesRemaining
+      << endl;
+   }
+   
 }
 
 helpRequest::helpRequest()
