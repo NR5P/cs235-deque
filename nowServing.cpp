@@ -95,16 +95,16 @@ void display(bool isTherePriority = false)
 {
    if (isTherePriority)
    {
-      cout << "\tEmergency for " << this->name
-      << " for class " << this->sClass
-      << ". Time left: " << this->minutesRemaining
+      cout << "\tEmergency for " << helpRequestDequeue.back()
+      << " for class " << helpRequestDequeue.back()
+      << ". Time left: " << helpRequestDequeue.back()
       << endl;
    }
    else
    {
-      cout << "\tEmergency for " << this->name
-      << " for class " << this->sClass
-      << ". Time left: " << this->minutesRemaining
+      cout << "\tEmergency for " << helpRequestDequeue.front()
+      << " for class " << helpRequestDequeue.front()
+      << ". Time left: " << helpRequestDequeue.front()
       << endl;
    }
    
