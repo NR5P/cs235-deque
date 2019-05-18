@@ -17,6 +17,25 @@ using namespace std;
 
 custom::deque<helpRequest> helpRequestDequeue;
 
+void display(bool isTherePriority = false)
+{
+   if (isTherePriority)
+   {
+      cout << "\tEmergency for " << helpRequestDequeue.back().getName()
+      << " for class " << helpRequestDequeue.back().getClass()
+      << ". Time left: " << helpRequestDequeue.back().getMinutesRemaining()
+      << endl;
+   }
+   else
+   {
+      cout << "\tEmergency for " << helpRequestDequeue.front().getName()
+      << " for class " << helpRequestDequeue.front().getClass()
+      << ". Time left: " << helpRequestDequeue.front().getMinutesRemaining()
+      << endl;
+   }
+   
+}
+
 /************************************************
  * NOW SERVING
  * The interactive function allowing the user to
@@ -89,25 +108,6 @@ void nowServing()
 
    // end
    cout << "End of simulation\n";
-}
-
-void display(bool isTherePriority = false)
-{
-   if (isTherePriority)
-   {
-      cout << "\tEmergency for " << helpRequestDequeue.back()
-      << " for class " << helpRequestDequeue.back()
-      << ". Time left: " << helpRequestDequeue.back()
-      << endl;
-   }
-   else
-   {
-      cout << "\tEmergency for " << helpRequestDequeue.front()
-      << " for class " << helpRequestDequeue.front()
-      << ". Time left: " << helpRequestDequeue.front()
-      << endl;
-   }
-   
 }
 
 helpRequest::helpRequest()
