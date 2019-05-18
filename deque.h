@@ -105,18 +105,20 @@ deque<T>::~deque()
 template <typename T>
 void deque<T>::pop_front()
 {
-    if (!empty())
-        iFront++;
-    throw "ERROR: attempting to access an element in an empty deque";
+   if (!empty())
+      iFront++;
+   else
+      throw "ERROR: attempting to access an element in an empty deque";
     
 }
 
 template <typename T>
 void deque<T>::pop_back()
 {
-    if (!empty())
-        iBack--;
-    throw "ERROR: attempting to access an element in an empty deque";
+   if (!empty())
+      iBack--;
+   else
+      throw "ERROR: attempting to access an element in an empty deque";
 }
 
 
