@@ -84,7 +84,7 @@ void nowServing()
 
       if (command == "!!")
       {
-         isTherePriority == true;
+         isTherePriority = true;
          string name;
          int minutesRemaining;
          cin >> name;
