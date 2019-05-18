@@ -128,7 +128,7 @@ template <typename T>
 const T &deque<T>::front() const
 {
    if (empty())
-      throw "ERROR: attempting to access an element in an empty deque";
+      throw "ERROR: unable to access data from an empty deque";
    return data[iFrontNormalized()];
 }
 
@@ -136,7 +136,7 @@ template <typename T>
 T &deque<T>::back()
 {
    if (empty())
-      throw "ERROR: attempting to access an element in an empty deque";
+      throw "ERROR: unable to access data from an empty deque";
    return data[iBackNormalized()];
 }
 
