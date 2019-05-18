@@ -86,6 +86,7 @@ void nowServing()
       {
          //processRequest to shift the request
          minutesSince++;
+         display();
       }
       else if (command == "finished")
       {
@@ -101,6 +102,7 @@ void nowServing()
          helpRequestDequeue.push_back(newRequest);
 
          minutesSince++;
+         display();
          //processRequest to shift the request
       }
 
