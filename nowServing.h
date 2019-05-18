@@ -32,6 +32,10 @@ public:
 
    int getMinutesRemaining() const { return minutesRemaining; }
    void setMinutesRemaining(int minutes) { this->minutesRemaining = minutes; }
+   void subtractOneMinute()
+   {
+       --minutesRemaining;
+   }
 
    void processRequest();
    void display();

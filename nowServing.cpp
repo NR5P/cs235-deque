@@ -18,14 +18,13 @@ using namespace std;
 custom::deque<helpRequest> helpRequestDequeue;
 
 // to show how many minutes its been for other students
-int minutesSince = 1;
 bool isTherePriority = false;
 
 void checkIfTimeOut()
 {
-   if(helpRequestDequeue.front().getMinutesRemaining() - minutesSince < 1)
+   if(helpRequestDequeue.front().getMinutesRemaining())
       helpRequestDequeue.pop_front();
-   else if(helpRequestDequeue.back().getMinutesRemaining() - minutesSince < 1)
+   else if(helpRequestDequeue.back().getMinutesRemaining())
    {
       helpRequestDequeue.pop_back();
       isTherePriority = false;
@@ -39,15 +38,17 @@ void display()
    {
       cout << "\tCurrently serving " << helpRequestDequeue.front().getName()
       << " for class " << helpRequestDequeue.front().getClass()
-      << ". Time left: " << helpRequestDequeue.front().getMinutesRemaining() - minutesSince
+      << ". Time left: " << helpRequestDequeue.front().getMinutesRemaining()
       << endl;
+      helpRequestDequeue.front().subtractOneMinute();
    }
    else
    {
       cout << "\tEmergency for " << helpRequestDequeue.back().getName()
       << " for class " << helpRequestDequeue.back().getClass()
-      << ". Time left: " << helpRequestDequeue.back().getMinutesRemaining() - minutesSince
+      << ". Time left: " << helpRequestDequeue.back().getMinutesRemaining()
       << endl;
+      helpRequestDequeue.back().subtractOneMinute();
    }
    
 }
@@ -88,12 +89,11 @@ void nowServing()
          int minutesRemaining;
          cin >> name;
          cin >> minutesRemaining;
-         helpRequest newRequest(command, name, minutesRemaining + minutesSince + 1);
+         helpRequest newRequest(command, name, minutesRemaining);
          newRequest.setIsPriority(true);
 
          helpRequestDequeue.push_front(newRequest);
 
-         minutesSince++;
 
          display();
 
@@ -102,7 +102,6 @@ void nowServing()
       else if (command == "none")
       {
          //processRequest to shift the request
-         minutesSince++;
          display();
       }
       else if (command == "finished")
@@ -115,10 +114,9 @@ void nowServing()
          int minutesRemaining;
          cin >> name;
          cin >> minutesRemaining;
-         helpRequest newRequest(command, name, minutesRemaining + minutesSince + 1);
+         helpRequest newRequest(command, name, minutesRemaining);
          helpRequestDequeue.push_back(newRequest);
 
-         minutesSince++;
          display();
          //processRequest to shift the request
       }
