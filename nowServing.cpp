@@ -38,7 +38,7 @@ void nowServing()
    {
       string course;
       string name;
-      int minute;
+      string minute;
 
       cout << "<" << line << ">"; 
       std::getline(std::cin, userChoice);
@@ -48,7 +48,7 @@ void nowServing()
       stream >> name;
       student.setName(name);
       stream >> minute;
-      student.setMinute(minute);
+      student.setMinute(std::stoi(minute));
       ss << userChoice;
 
       cout << course;
