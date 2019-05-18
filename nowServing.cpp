@@ -19,21 +19,22 @@ custom::deque<helpRequest> helpRequestDequeue;
 
 // to show how many minutes its been for other students
 int minutesSince = 0;
+bool isTherePriority = false;
 
-void display(bool isTherePriority = false)
+void display()
 {
    if (isTherePriority == false)
    {
-      cout << "\tCurrently serving " << helpRequestDequeue.back().getName()
-      << " for class " << helpRequestDequeue.back().getClass()
-      << ". Time left: " << helpRequestDequeue.back().getMinutesRemaining() - minutesSince
+      cout << "\tCurrently serving " << helpRequestDequeue.front().getName()
+      << " for class " << helpRequestDequeue.front().getClass()
+      << ". Time left: " << helpRequestDequeue.front().getMinutesRemaining() - minutesSince
       << endl;
    }
    else
    {
-      cout << "\tEmergency for " << helpRequestDequeue.front().getName()
-      << " for class " << helpRequestDequeue.front().getClass()
-      << ". Time left: " << helpRequestDequeue.front().getMinutesRemaining() - minutesSince
+      cout << "\tEmergency for " << helpRequestDequeue.back().getName()
+      << " for class " << helpRequestDequeue.back().getClass()
+      << ". Time left: " << helpRequestDequeue.back().getMinutesRemaining() - minutesSince
       << endl;
    }
    
@@ -68,6 +69,7 @@ void nowServing()
 
       if (command == "!!")
       {
+         isTherePriority == true;
          string name;
          int minutesRemaining;
          cin >> name;
@@ -79,7 +81,7 @@ void nowServing()
 
          minutesSince++;
 
-         display(true);
+         display();
 
          //processRequest to shift the request
       }
