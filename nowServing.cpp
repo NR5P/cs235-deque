@@ -13,6 +13,7 @@
 #include <cassert>      // for ASSERT
 #include "nowServing.h" // for nowServing() prototype
 #include "deque.h"      // for DEQUE
+#include <sstream>
 using namespace std;
 
 /************************************************
@@ -30,11 +31,29 @@ void nowServing()
 
    Student student;
    string userChoice; //used for user input
+   stringstream ss;
    int line = 0; //used for displaying which line we are on
 
    do
    {
-      cout << "<" << userChoice << ">"; 
+      string course;
+      string name;
+      int minute;
+
+      cout << "<" << line << ">"; 
+      std::getline(std::cin, userChoice);
+      std::istringstream stream(userChoice);
+      stream >> course;
+      student.setCourse(course);
+      stream >> name;
+      student.setName(name);
+      stream >> minute;
+      student.setMinute(minute);
+      ss << userChoice;
+
+      cout << course;
+      cout << minute;
+      cout << name;
    } while (userChoice != "finished");
    
 

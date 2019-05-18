@@ -46,6 +46,19 @@ class Student
        return course;
    }
 
+   void setCourse(std::string course)
+   {
+       this->course = course;
+   }
+   void setName(std::string name)
+   {
+       this->name = name;
+   }
+   void setMinute(int minute)
+   {
+       this->minutes = minute;
+   }
+
 };
 
 void nowServing();
