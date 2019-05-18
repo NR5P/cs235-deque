@@ -17,20 +17,23 @@ using namespace std;
 
 custom::deque<helpRequest> helpRequestDequeue;
 
+// to show how many minutes its been for other students
+int minutesSince = 0;
+
 void display(bool isTherePriority = false)
 {
-   if (isTherePriority)
+   if (isTherePriority == false)
    {
-      cout << "\tEmergency for " << helpRequestDequeue.back().getName()
+      cout << "\tCurrently serving " << helpRequestDequeue.back().getName()
       << " for class " << helpRequestDequeue.back().getClass()
-      << ". Time left: " << helpRequestDequeue.back().getMinutesRemaining()
+      << ". Time left: " << helpRequestDequeue.back().getMinutesRemaining() - minutesSince
       << endl;
    }
    else
    {
       cout << "\tEmergency for " << helpRequestDequeue.front().getName()
       << " for class " << helpRequestDequeue.front().getClass()
-      << ". Time left: " << helpRequestDequeue.front().getMinutesRemaining()
+      << ". Time left: " << helpRequestDequeue.front().getMinutesRemaining() - minutesSince
       << endl;
    }
    
@@ -55,8 +58,6 @@ void nowServing()
    int lineCount = 0;
    helpRequest currentRequest();
 
-   // to show how many minutes its been for other students
-   int minutesSince = 0;
 
    do
    {
@@ -71,7 +72,7 @@ void nowServing()
          int minutesRemaining;
          cin >> name;
          cin >> minutesRemaining;
-         helpRequest newRequest(command, name, minutesRemaining);
+         helpRequest newRequest(command, name, minutesRemaining + 1);
          newRequest.setIsPriority(true);
 
          helpRequestDequeue.push_front(newRequest);
@@ -98,7 +99,7 @@ void nowServing()
          int minutesRemaining;
          cin >> name;
          cin >> minutesRemaining;
-         helpRequest newRequest(command, name, minutesRemaining);
+         helpRequest newRequest(command, name, minutesRemaining + 1);
          helpRequestDequeue.push_back(newRequest);
 
          minutesSince++;
