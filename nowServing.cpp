@@ -21,6 +21,17 @@ custom::deque<helpRequest> helpRequestDequeue;
 int minutesSince = 1;
 bool isTherePriority = false;
 
+void checkIfTimeOut()
+{
+   if(helpRequestDequeue.front().getMinutesRemaining() == 0)
+      helpRequestDequeue.pop_front();
+   else if(helpRequestDequeue.back().getMinutesRemaining() == 0)
+   {
+      helpRequestDequeue.pop_back();
+      isTherePriority = false;
+   }
+}
+
 void display()
 {
    checkIfTimeOut();
@@ -41,16 +52,7 @@ void display()
    
 }
 
-void checkIfTimeOut()
-{
-   if(helpRequestDequeue.front().getMinutesRemaining() == 0)
-      helpRequestDequeue.pop_front();
-   else if(helpRequestDequeue.back().getMinutesRemaining() == 0)
-   {
-      helpRequestDequeue.pop_back();
-      isTherePriority = false;
-   }
-}
+
 
 /************************************************
  * NOW SERVING
