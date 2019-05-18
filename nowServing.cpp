@@ -19,7 +19,7 @@ custom::deque<helpRequest> helpRequestDequeue;
 
 void checkIfTimeOut()
 {
-   if(helpRequestDequeue.front().getMinutesRemaining())
+   if(helpRequestDequeue.front().getMinutesRemaining() < 1)
       helpRequestDequeue.pop_front();
 }
 
@@ -61,7 +61,7 @@ void nowServing()
 
          helpRequestDequeue.push_front(newRequest);
 
-
+         checkIfTimeOut();
          helpRequestDequeue.front().display();
          helpRequestDequeue.front().subtractOneMinute();
 
@@ -70,6 +70,7 @@ void nowServing()
       else if (command == "none")
       {
          //processRequest to shift the request
+         checkIfTimeOut();
          helpRequestDequeue.front().display();
          helpRequestDequeue.front().subtractOneMinute();
       }
@@ -86,6 +87,7 @@ void nowServing()
          helpRequest newRequest(command, name, minutesRemaining);
          helpRequestDequeue.push_back(newRequest);
 
+         checkIfTimeOut();
          helpRequestDequeue.front().display();
          helpRequestDequeue.front().subtractOneMinute();
          //processRequest to shift the request
