@@ -23,30 +23,6 @@ void checkIfTimeOut()
       helpRequestDequeue.pop_front();
 }
 
-void display()
-{
-   checkIfTimeOut();
-   if (helpRequestDequeue.front().getIsPriority() == false)
-   {
-      cout << "\tCurrently serving " << helpRequestDequeue.front().getName()
-      << " for class " << helpRequestDequeue.front().getClass()
-      << ". Time left: " << helpRequestDequeue.front().getMinutesRemaining()
-      << endl;
-      helpRequestDequeue.front().subtractOneMinute();
-   }
-   else
-   {
-      cout << "\tEmergency for " << helpRequestDequeue.front().getName()
-      << " for class " << helpRequestDequeue.front().getClass()
-      << ". Time left: " << helpRequestDequeue.front().getMinutesRemaining()
-      << endl;
-      helpRequestDequeue.front().subtractOneMinute();
-   }
-   
-}
-
-
-
 /************************************************
  * NOW SERVING
  * The interactive function allowing the user to
@@ -87,6 +63,7 @@ void nowServing()
 
 
          helpRequestDequeue.front().display();
+         helpRequestDequeue.front().subtractOneMinute();
 
          //processRequest to shift the request
       }
@@ -94,6 +71,7 @@ void nowServing()
       {
          //processRequest to shift the request
          helpRequestDequeue.front().display();
+         helpRequestDequeue.front().subtractOneMinute();
       }
       else if (command == "finished")
       {
@@ -109,6 +87,7 @@ void nowServing()
          helpRequestDequeue.push_back(newRequest);
 
          helpRequestDequeue.front().display();
+         helpRequestDequeue.front().subtractOneMinute();
          //processRequest to shift the request
       }
 
