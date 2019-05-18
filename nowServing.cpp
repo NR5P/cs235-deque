@@ -26,6 +26,8 @@ void nowServing()
 
    //dequeue<Student> currentStudent;
    //dequeue<Student> nextStudent;
+   custom::deque<Student> students;
+
    Student student;
    string userChoice; //used for user input
    int line = 0; //used for displaying which line we are on
