@@ -136,7 +136,7 @@ template <typename T>
 T &deque<T>::back()
 {
    if (empty())
-      throw "ERROR: unable to access data from an empty deque";
+      throw "ERROR: attempting to access an element in an empty deque";
    return data[iBackNormalized()];
 }
 
