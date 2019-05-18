@@ -24,18 +24,17 @@ void nowServing()
 {
    displayInstructions();
 
-   dequeue<Student> currentStudent;
-   dequeue<Student> nextStudent;
-   
+   //dequeue<Student> currentStudent;
+   //dequeue<Student> nextStudent;
+   Student student;
    string userChoice; //used for user input
-   int line; //used for displaying which line we are on
+   int line = 0; //used for displaying which line we are on
 
-   /* Add code to keep  asking for user input until "finished" is input. 
    do
    {
-   } while (//condition);
+      cout << "<" << userChoice << ">"; 
+   } while (userChoice != "finished");
    
-   */
 
    cout << "End of simulation\n";
 
@@ -65,17 +64,17 @@ void displayInstructions()
  ***********************************************/
 void displayUpdate(int mins, Student currentStudent)
 {
-   if (currentStudent.emergancy)
+   if (currentStudent.isEmergency())
    {
       cout << "Emergency for " << currentStudent.getName()
-      << " for class " currentStudent.getCourse() 
+      << " for class " << currentStudent.getCourse() 
       << ". Time left: " /* << *Somehow put remaining time here* */
       << endl;
    }
    else
    {
       cout << "Currently serving " << currentStudent.getName()
-      << " for class " currentStudent.getCourse() 
+      << " for class " << currentStudent.getCourse() 
       << ". Time left: " /* << *Somehow put remaining time here* */
       << endl;
    }

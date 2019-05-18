@@ -12,29 +12,39 @@
 #define NOW_SERVING_H
 
 #include "deque.h"     // for DEQUE
+#include <string>
 
 class Student
 {
    private:
       
-      bool emergancy;
-      string course;
-      string name;
-      int mins;
+      bool emergency;
+      std::string course;
+      std::string name;
+      int minutes;
 
    public:
    
    //Default Constructor
-   Student() : emergancy(false), course(""), name(""), min(0) {}
+   Student() : emergency(false), course(""), name(""), minutes(0) {}
    
    //Non-Default Constructor
-   Student(bool emergancy, string course, string name, int mins);
+   Student(bool emergancy, std::string course, std::string name, int mins);
    
-   //Destructor
-   //~Student();
+   bool isEmergency() 
+   {
+       return emergency;
+   }
 
-   //Setters and Getters for emergancy/coursse/name/mins
+   std::string getName()
+   {
+       return name;
+   }
 
+   std::string getCourse()
+   {
+       return course;
+   }
 
 };
 
