@@ -35,18 +35,18 @@ private:
    }
    int iNormalize(int i) const
    {
-      return (i >= 0) ? (i % numCapacity) : 
-      (numCapacity - ((-1 -i) % numCapacity) - 1);
+      int normalized = (i >= 0) ? (i % numCapacity) : (numCapacity - ((-1 - i) % numCapacity) - 1);
+      return normalized;
    }
 
 public:
-   deque() : numCapacity(0), iFront(0), iBack(-1), data(nullptr) {};
+   deque() : numCapacity(0), iFront(0), iBack(-1), data(nullptr){};
    deque(int capacity);
    deque(const deque &rhs);
    ~deque();
    int size() const
    {
-       return (iBack - iFront) + 1;
+      return (iBack - iFront) + 1;
    }
    bool empty() const
    {
@@ -66,14 +66,14 @@ public:
    T &back();
    const T &front() const;
    const T &back() const;
-   int capacity() const {return numCapacity;}
+   int capacity() const { return numCapacity; }
 };
 
 //test
 // non default constructor that takes an int
 template <typename T>
 deque<T>::deque(int capacity)
-   : iFront(0), iBack(-1), data(nullptr)
+    : iFront(0), iBack(-1), data(nullptr), numCapacity(0)
 {
    resize(capacity);
    iFront = 0;
@@ -83,7 +83,7 @@ deque<T>::deque(int capacity)
 // copy constructor
 template <typename T>
 deque<T>::deque(const deque &otherdeque)
-   : iFront(0), iBack(-1), data(nullptr), numCapacity(0)
+    : iFront(0), iBack(-1), data(nullptr), numCapacity(0)
 {
    assign(otherdeque);
 }
@@ -99,7 +99,7 @@ deque<T>::~deque()
    }
    */
    if (numCapacity != 0)
-      delete [] data;
+      delete[] data;
 }
 
 template <typename T>
@@ -107,9 +107,6 @@ void deque<T>::pop_front()
 {
    if (!empty())
       iFront++;
-   else
-      throw "ERROR: attempting to access an element in an empty deque";
-    
 }
 
 template <typename T>
@@ -117,10 +114,7 @@ void deque<T>::pop_back()
 {
    if (!empty())
       iBack--;
-   else
-      throw "ERROR: attempting to access an element in an empty deque";
 }
-
 
 template <typename T>
 T &deque<T>::front()
@@ -183,10 +177,11 @@ void deque<T>::assign(const deque<T> &rhs)
    // copy the data
    //int iDestination = 0;
    int newI = -1;
+
    for (int iSource = rhs.iFront; iSource <= rhs.iBack; iSource++)
-      push_back(rhs.data[iNormalize(iSource)]);
-      //data[++newI] = rhs.data[iNormalize(iSource)];
-      //push_back(rhs.data[iSource % rhs.numCapacity]); //TODO what to put in data brackets
+      push_back(rhs.data[rhs.iNormalize(iSource)]);
+   //data[++newI] = rhs.data[iNormalize(iSource)];
+   //push_back(rhs.data[iSource % rhs.numCapacity]); //TODO what to put in data brackets
 
    iFront = 0;
    iBack = rhs.size() - 1;
@@ -200,35 +195,34 @@ void deque<T>::assign(const deque<T> &rhs)
 * will be copied over to the new buffer
 *********************************************************/
 
-
-   /****************************************************
+/****************************************************
 * DEQUE :: GROW
 * If the deque is currently empty, allocate to size 2.
 * Otherwise, double the size
 ***************************************************/
 template <class T>
-void deque <T> :: resize(int newCapacity)
+void deque<T>::resize(int newCapacity)
 {
    // set the default size
    if (newCapacity <= 0 || newCapacity < numCapacity)
-   newCapacity = (numCapacity ? numCapacity * 2 : 1);
+      newCapacity = (numCapacity ? numCapacity * 2 : 1);
 
    // allocate the new buffer
-   T * newData = new(std::nothrow) T[newCapacity];
+   T *newData = new (std::nothrow) T[newCapacity];
    if (NULL == newData)
-   throw "ERROR: Unable to allocate a new buffer for deque";
+      throw "ERROR: Unable to allocate a new buffer for deque";
 
    // copy the data
    int newIBack = -1;
    for (int i = iFront; i <= iBack; i++)
-   newData[++newIBack] = data[iNormalize(i)];
+      newData[++newIBack] = data[iNormalize(i)];
    iFront = 0;
    iBack = newIBack;
 
    // set up the new values
    numCapacity = newCapacity;
    if (NULL != data)
-   delete [] data;
+      delete[] data;
    data = newData;
 }
 
@@ -254,6 +248,6 @@ void deque<T>::push_front(const T &t)
    data[iFrontNormalized()] = t;
 }
 
-}
+} // namespace custom
 
 #endif
