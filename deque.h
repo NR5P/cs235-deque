@@ -24,10 +24,20 @@ private:
    int numCapacity;
 
    void assign(const deque &rhs);
-   void resize(int newCapacity, bool reset = false);
-   int iFrontNormalized() const;
-   int iBackNormalized() const;
-   int capacity() const {return numCapacity;} 
+   void resize(int newCapacity);
+   int iFrontNormalized() const
+   {
+      return iNormalize(iFront);
+   }
+   int iBackNormalized() const
+   {
+      return iNormalize(iBack);
+   }
+   int iNormalize(int i) const
+   {
+      return (i >= 0) ? (i % numCapacity) : 
+      (numCapacity - ((-1 -i) % numCapacity) - 1);
+   }
 
 public:
    deque() : numCapacity(0), iFront(0), iBack(-1), data(nullptr) {};
@@ -43,7 +53,11 @@ public:
       return size() == 0;
    }
    deque &operator=(const deque &t);
-   void clear();
+   void clear()
+   {
+      iFront = 0;
+      iBack = -1;
+   }
    void push_back(const T &t);
    void push_front(const T &t);
    void pop_back();
@@ -52,6 +66,7 @@ public:
    T &back();
    const T &front() const;
    const T &back() const;
+   int capacity() const {return numCapacity;}
 };
 
 //test
@@ -77,18 +92,15 @@ deque<T>::deque(const deque &otherdeque)
 template <typename T>
 deque<T>::~deque()
 {
+   /*
    if (data != nullptr)
    {
       delete[] data;
       data = nullptr;
    }
-}
-
-template <typename T>
-void deque<T>::clear()
-{
-   iFront = 0;
-   iFront = -1;
+   */
+   if (numCapacity != 0)
+      delete [] data;
 }
 
 template <typename T>
@@ -184,40 +196,43 @@ void deque<T>::assign(const deque<T> &rhs)
 * be doubled. If the stack is currently not empty, the contents
 * will be copied over to the new buffer
 *********************************************************/
-template <class T>
-void deque<T>::resize(int newCapacity, bool reset)
-{
-   assert(newCapacity >= 0);
 
-   // determine the new buffer size
-   //if (newCapacity == 0)
-   //   newCapacity = (numCapacity != 0 ? numCapacity * 2 : 1);
+
+   /****************************************************
+* DEQUE :: GROW
+* If the deque is currently empty, allocate to size 2.
+* Otherwise, double the size
+***************************************************/
+template <class T>
+void deque <T> :: resize(int newCapacity)
+{
+   // set the default size
+   if (newCapacity <= 0 || newCapacity < numCapacity)
+   newCapacity = (numCapacity ? numCapacity * 2 : 1);
 
    // allocate the new buffer
-   T *newData = new (std::nothrow) T[newCapacity];
+   T * newData = new(std::nothrow) T[newCapacity];
    if (NULL == newData)
-      throw "ERROR: Unable to allocate a new buffer for deque";
+   throw "ERROR: Unable to allocate a new buffer for deque";
 
    // copy the data
-   int iDestination = 0;
-   for (int iSource = iFront; (iDestination < (size())); iSource++)
-      newData[iDestination++] = data[iSource % numCapacity];
-
-   // set the new capacity, numPush, and numPop
-   this->numCapacity = newCapacity;
+   int newIBack = -1;
+   for (int i = iFront; i <= iBack; i++)
+   newData[++newIBack] = data[iNormalize(i)];
    iFront = 0;
-   //iBack = iDestination;
+   iBack = newIBack;
 
-   // free the old
+   // set up the new values
+   numCapacity = newCapacity;
    if (NULL != data)
-      delete[] data;
+   delete [] data;
    data = newData;
 }
 
 template <typename T>
 void deque<T>::push_back(const T &t)
 {
-   if (size() == numCapacity)
+   if (size() == capacity())
    {
       resize(numCapacity > 0 ? numCapacity * 2 : 1);
    }
@@ -228,25 +243,12 @@ void deque<T>::push_back(const T &t)
 template <typename T>
 void deque<T>::push_front(const T &t)
 {
-   if (size() == numCapacity)
+   if (size() == capacity())
    {
       resize(numCapacity > 0 ? numCapacity * 2 : 1);
    }
    iFront--;
    data[iFrontNormalized()] = t;
-}
-
-template <typename T>
-int deque<T>::iFrontNormalized() const
-{
-   return iFront % numCapacity;
-}
-
-
-template <typename T>
-int deque<T>::iBackNormalized() const
-{
-   return iBack % numCapacity;
 }
 
 }
