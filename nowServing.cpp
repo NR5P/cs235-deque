@@ -18,7 +18,7 @@ using namespace std;
 custom::deque<helpRequest> helpRequestDequeue;
 
 // to show how many minutes its been for other students
-int minutesSince = 0;
+int minutesSince = 1;
 bool isTherePriority = false;
 
 void display()
@@ -74,7 +74,7 @@ void nowServing()
          int minutesRemaining;
          cin >> name;
          cin >> minutesRemaining;
-         helpRequest newRequest(command, name, minutesRemaining + 1);
+         helpRequest newRequest(command, name, minutesRemaining + minutesSince + 1);
          newRequest.setIsPriority(true);
 
          helpRequestDequeue.push_front(newRequest);
@@ -101,7 +101,7 @@ void nowServing()
          int minutesRemaining;
          cin >> name;
          cin >> minutesRemaining;
-         helpRequest newRequest(command, name, minutesRemaining + 1);
+         helpRequest newRequest(command, name, minutesRemaining + minutesSince + 1);
          helpRequestDequeue.push_back(newRequest);
 
          minutesSince++;
