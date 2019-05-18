@@ -40,7 +40,10 @@ void nowServing()
       string name;
       string minute;
 
-      cout << "<" << line << ">"; 
+      // shows line number
+      cout << "<" << line << "> "; 
+
+      // get input from user and parse into separate variables
       std::getline(std::cin, userChoice);
       std::istringstream stream(userChoice);
       stream >> course;
@@ -49,7 +52,6 @@ void nowServing()
       student.setName(name);
       stream >> minute;
       student.setMinute(std::stoi(minute));
-      ss << userChoice;
 
       cout << course;
       cout << minute;
